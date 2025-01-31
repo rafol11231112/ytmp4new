@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YTMP4 - YouTube to MP4 Converter</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fb;
+            color: #333;
+        }
+        a {
+            text-decoration: none;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .navbar a {
+            color: white;
+            margin: 0 15px;
+            font-size: 16px;
+        }
+
+        /* Hero section */
+        .hero {
+            text-align: center;
+            padding: 50px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            border-radius: 8px;
+        }
+        .hero h1 {
+            font-size: 32px;
+            color: #333;
+        }
+        .hero p {
+            font-size: 16px;
+            color: #555;
+            margin-top: 15px;
+        }
+
+        /* Input section */
+        .input-section {
+            margin-top: 30px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Download section */
+        #downloadLink {
+            display: none;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        #downloadLink:hover {
+            background-color: #218838;
+        }
+
+        /* Footer section */
+        .footer {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            margin-top: 50px;
+        }
+
+        /* Content sections */
+        .features, .faq {
+            background-color: white;
+            padding: 30px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h3 {
+            color: #007BFF;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            font-size: 16px;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="#">Home</a>
+        <a href="#">FAQ</a>
+        <a href="#">About Us</a>
+        <a href="#">EN</a>
+    </div>
+
+    <!-- Hero section -->
+    <div class="hero">
+        <h1>YTMP4 - YouTube to MP4 Converter</h1>
+        <p>Convert YouTube videos to MP4 and enjoy high-quality downloads for free. No registration needed!</p>
+    </div>
+
+    <!-- Input Section -->
+    <div class="input-section">
+        <h3>Please insert a valid YouTube video URL</h3>
+        <input type="text" id="youtubeUrl" placeholder="Search or paste YouTube link here">
+        
+        <!-- Resolution Dropdown -->
+        <select id="videoQuality">
+            <option value="best">Best Quality (Default)</option>
+            <option value="360p">360p</option>
+            <option value="480p">480p</option>
+            <option value="720p">720p</option>
+            <option value="1080p">1080p</option>
+            <option value="1440p">1440p</option>
+            <option value="4K">4K</option>
+        </select>
+
+        <button onclick="downloadVideo()">Convert</button>
+        <p id="status"></p>
+        <a id="downloadLink" download>Click here to download</a>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features">
+        <h3>Features</h3>
+        <ul>
+            <li>Easy to Use</li>
+            <li>Unlimited Free Downloads</li>
+            <li>High-Quality Downloads (up to 4K)</li>
+            <li>No Registration Required</li>
+            <li>Compatible with All Devices & Browsers</li>
+            <li>Safe and Secure</li>
+        </ul>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq">
+        <h3>FAQ</h3>
+        <ul>
+            <li><strong>What is YTMP4?</strong> A simple tool to convert YouTube videos to MP4 and download them.</li>
+            <li><strong>How do I use it?</strong> Copy and paste the YouTube video URL, select video quality, and click "Convert".</li>
+            <li><strong>Is YTMP4 safe to use?</strong> Yes, it's secure and free from malware or viruses.</li>
+            <li><strong>Can I download videos in different resolutions?</strong> Yes, we support 360p, 480p, 720p, 1080p, 2K, and 4K.</li>
+            <li><strong>Is there a limit on conversions?</strong> No, you can convert and download as many videos as you want.</li>
+        </ul>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2025 YTMP4 - YouTube to MP4 Converter. All rights reserved.
+    </div>
+
+    <script>
+        async function downloadVideo() {
+            const url = document.getElementById("youtubeUrl").value;
+            const quality = document.getElementById("videoQuality").value;
+            document.getElementById("status").innerText = "Processing...";
+            document.getElementById("status").classList.remove("error", "success");
+
+            const response = await fetch("http://localhost:3000/download", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url, quality })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                document.getElementById("status").innerText = "Download Ready!";
+                document.getElementById("status").classList.add("success");
+                document.getElementById("downloadLink").href = data.downloadUrl;
+                document.getElementById("downloadLink").style.display = "inline-block";
+            } else {
+                document.getElementById("status").innerText = "Error: " + data.error;
+                document.getElementById("status").classList.add("error");
+            }
+        }
+    </script>
+
+</body>
+</html>
